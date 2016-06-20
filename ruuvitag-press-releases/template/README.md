@@ -1,14 +1,11 @@
-# Press release
+# RuuviTag Press Release Template
 
-# Translations
+## Translations
 
-# Resources
+## Resources
 
-## Muli Font Free by Vernon Adams
-
-https://www.fontsquirrel.com/fonts/muli
-
-## Oswald Font Free by Vernon Adams
-
-https://www.fontsquirrel.com/fonts/oswald
-
+ * *Muli Font Free by Vernon Adams*
+   available at https://www.fontsquirrel.com/fonts/muli
+   
+ * *Oswald Font Free by Vernon Adams*
+   available at https://www.fontsquirrel.com/fonts/oswald
