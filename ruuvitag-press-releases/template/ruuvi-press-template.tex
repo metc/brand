@@ -4,6 +4,7 @@
 \newlength{\leftcolwidth}
 \newlength{\rightcolwidth}
 
+
 \usepackage{geometry}
 \geometry{a4paper, landscape} % 297mm x 210mm (landscape)
 
@@ -13,24 +14,44 @@
 \usepackage{graphicx}
 \graphicspath{ {images/} }
 
-\newsavebox\mysavebox
-\newenvironment{imgminipage}[2][]{%
-	\def\imgcmd{\includegraphics[width=#2,height=\paperheight,#1]{#2}}%
-	%\imginc{\includegraphics[width=\wd\mysavebox]{#1}}%
-	\begin{lrbox}{\mysavebox}%
-	  \begin{minipage}[t][\paperheight][t]{#2}%
-	    }{%
-	  \end{minipage}
-    \end{lrbox}%
-    \sbox\mysavebox{\fbox{\usebox\mysavebox}}%
-    \mbox{\rlap{\raisebox{-\dp\mysavebox}{\imginc}}\usebox\mysavebox}%
-}
+%\newsavebox\mysavebox
+%\newenvironment{imgminipage}[2][]{%
+%	\def\imgcmd{\includegraphics[width=#2,height=\paperheight,#1]{#2}}%
+%	%\imginc{\includegraphics[width=\wd\mysavebox]{#1}}%
+%	\begin{lrbox}{\mysavebox}%
+%	  \begin{minipage}[t][\paperheight][t]{#2}%
+%	    }{%
+%	  \end{minipage}
+%    \end{lrbox}%
+%    \sbox\mysavebox{\fbox{\usebox\mysavebox}}%
+%    \mbox{\rlap{\raisebox{-\dp\mysavebox}{\imginc}}\usebox\mysavebox}%
+%}
 
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
 \parindent=0mm
 
+% Load custom fonts
+\setmainfont{Oswald}[
+  Path        = fonts/,
+  Extension   = .ttf,
+  UprightFont = *-Regular,
+  ItalicFont  = *-Light
+]
+
+% Oswald 14
+\newcommand{\hb}[1]{\Large{\color{white}\textit{#1}}}
+
+% Oswald Regular 15.5
+
+% Oswald 16
+
+% Oswald Regular 32
+
+\newcommand{\ha}[1]{\Huge{\color{white}\textit{#1}}}
+
+% Muli 11
 
 \newenvironment{nscenter}
 {\parskip=0pt\par\nopagebreak\centering}
@@ -43,6 +64,8 @@
 \setlength{\rightcolwidth}{\paperwidth}
 \addtolength\rightcolwidth{-\leftcolwidth} % Fit the width of the paper
 
+% Custom column style
+\tikzstyle{col} = [anchor=south west, rectangle, inner sep=0pt, inner ysep=0pt, minimum width=#1, minimum height=\paperheight]
 
 % From http://tex.stackexchange.com/questions/260775/how-to-place-text-over-an-image
 % and http://tex.stackexchange.com/questions/296659/remove-tikzpicture-border
@@ -52,22 +75,72 @@
 % Left column
 % -----------
 
-\pagestyle{empty}%
-    \noindent
-    \begin{tabular}{@{}c@{}}
-    \cellcolor{blue!50}%
-    \begin{minipage}[t][\paperheight][t]{106mm}%
-        Left
-        \includegraphics[width=\linewidth]{col_left} 
-        TODO
-    \end{minipage}%
-    \end{tabular}%
-    \begin{tabular}{@{}c@{}}
-    %\cellcolor{green!50}%
-    \begin{minipage}[t][\paperheight][t]{191mm}%
-        Right
-    \end{minipage}%
-    \end{tabular}%
+\begin{tikzpicture}[remember picture, overlay]
+
+% Background image of the column
+\node[col=\leftcolwidth] (X) at (current page.south west) {
+  \includegraphics[height=\paperheight]{col_left}
+};
+
+\begin{scope}[x={(X.south west)}, y={(X.north east)}]%
+
+  % Column background color
+  \fill[fill=blue, fill opacity=0.7] ($(X.south west)$) rectangle ($(X.north east)$);
+
+
+  \node[fill=blue, text width=0.8\leftcolwidth, anchor=north, yshift=-10mm] (A) at (X.north) {
+    \centering \hb{Open-Source} \\
+  };
+
+  \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-5mm] (B) at (A.south) {
+    \centering \hb{\textbf{BLUETOOTH 4.2} SENSOR BEACON} \\
+  };
+
+  \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-20mm] (C) at (B.south) {
+    \centering \ha{\textbf{RuuviTag}} \\
+  };
+
+  \node[fill=red, anchor=center, yshift=-40mm] (D) at (C.south) {
+    \includegraphics[height=30mm]{col_left}
+  };
+
+  % Build from the bottom
+
+  % TODO: muli font
+  \node[, anchor=center, yshift=15mm] (G) at (X.south) {
+	\centering \hb{ruuvitag.com}
+  };
+
+  \node[fill=red, anchor=center, yshift=15mm] (F) at (G.north) {
+	\includegraphics[height=15mm]{col_left}
+  };
+
+  \node[, anchor=center, yshift=30mm] (E) at (F.south) {
+	\centering \hb{COMING SOON TO KICKSTARTER!}
+  };
+
+  \draw[ultra thick, yellow] ($(E.south west)+(4pt,0)$) |- ($(E.south east)-(4pt,0)$);
+
+\end{scope}
+
+\end{tikzpicture}
+
+%\pagestyle{empty}%
+%    \noindent
+%    \begin{tabular}{@{}c@{}}
+%    \cellcolor{blue!50}%
+%    \begin{minipage}[t][\paperheight][t]{106mm}%
+%        Left
+%        \includegraphics[width=\linewidth]{col_left} 
+%        sdsdf
+%    \end{minipage}%
+%    \end{tabular}%
+%    \begin{tabular}{@{}c@{}}
+%    %\cellcolor{green!50}%
+%    \begin{minipage}[t][\paperheight][t]{191mm}%
+%        Right
+%    \end{minipage}%
+%    \end{tabular}%
 
 
 \end{document}
