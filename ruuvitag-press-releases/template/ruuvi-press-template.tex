@@ -4,7 +4,6 @@
 \newlength{\leftcolwidth}
 \newlength{\rightcolwidth}
 
-
 \usepackage{geometry}
 \geometry{a4paper, landscape} % 297mm x 210mm (landscape)
 
@@ -14,44 +13,42 @@
 \usepackage{graphicx}
 \graphicspath{ {images/} }
 
-%\newsavebox\mysavebox
-%\newenvironment{imgminipage}[2][]{%
-%	\def\imgcmd{\includegraphics[width=#2,height=\paperheight,#1]{#2}}%
-%	%\imginc{\includegraphics[width=\wd\mysavebox]{#1}}%
-%	\begin{lrbox}{\mysavebox}%
-%	  \begin{minipage}[t][\paperheight][t]{#2}%
-%	    }{%
-%	  \end{minipage}
-%    \end{lrbox}%
-%    \sbox\mysavebox{\fbox{\usebox\mysavebox}}%
-%    \mbox{\rlap{\raisebox{-\dp\mysavebox}{\imginc}}\usebox\mysavebox}%
-%}
-
 \usepackage{tikz}
 \usetikzlibrary{calc}
 
 \parindent=0mm
 
-% Load custom fonts
-\setmainfont{Oswald}[
+% http://tex.stackexchange.com/questions/25249/how-do-i-use-a-particular-font-for-a-small-section-of-text-in-my-document
+% http://tex.stackexchange.com/questions/62603/how-to-choose-a-specific-weight-from-a-font-family-using-fontspec-and-xelatex
+
+% Custom Oswald Regular / Light fonts
+\newfontfamily{\oswald}[
   Path        = fonts/,
-  Extension   = .ttf,
+  Ligatures   = TeX,
+  Extension   = .ttf,  
   UprightFont = *-Regular,
   ItalicFont  = *-Light
-]
+]{Oswald}
 
-% Oswald 14
-\newcommand{\hb}[1]{\Large{\color{white}\textit{#1}}}
+% Oswald Regular font
+\newcommand{\orfont}[2]{\fontsize{#1}{#1}\oswald{\color{white}{#2}}}
 
-% Oswald Regular 15.5
+% Oswald Light font
+\newcommand{\olfont}[2]{\fontsize{#1}{#1}\oswald{\color{white}\textit{#2}}}
 
-% Oswald 16
 
-% Oswald Regular 32
+% Custom Muli Light font
+\newfontfamily{\muli}[
+Path        = fonts/,
+Ligatures   = TeX,
+Extension   = .ttf,  
+ItalicFont  = *-Light
+]{Muli}
 
-\newcommand{\ha}[1]{\Huge{\color{white}\textit{#1}}}
+% Muli Light font
+\newcommand{\mlfont}[2]{\fontsize{#1}{#1}\muli{\color{white}\textit{#2}}}
 
-% Muli 11
+
 
 \newenvironment{nscenter}
 {\parskip=0pt\par\nopagebreak\centering}
@@ -63,6 +60,8 @@
 \setlength{\leftcolwidth}{106mm}           % Should corresponds to the background image width
 \setlength{\rightcolwidth}{\paperwidth}
 \addtolength\rightcolwidth{-\leftcolwidth} % Fit the width of the paper
+
+% \fontsize{size}{skip}
 
 % Custom column style
 \tikzstyle{col} = [anchor=south west, rectangle, inner sep=0pt, inner ysep=0pt, minimum width=#1, minimum height=\paperheight]
@@ -89,15 +88,15 @@
 
 
   \node[fill=blue, text width=0.8\leftcolwidth, anchor=north, yshift=-10mm] (A) at (X.north) {
-    \centering \hb{Open-Source} \\
+  	\centering \orfont{14}{Open-Source} \\
   };
 
   \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-5mm] (B) at (A.south) {
-    \centering \hb{\textbf{BLUETOOTH 4.2} SENSOR BEACON} \\
+    \centering \orfont{25}{BLUETOOTH 4.2} \olfont{14}{SENSOR BEACON} \\
   };
 
   \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-20mm] (C) at (B.south) {
-    \centering \ha{\textbf{RuuviTag}} \\
+    \centering \olfont{14}{RuuviTag} \\
   };
 
   \node[fill=red, anchor=center, yshift=-40mm] (D) at (C.south) {
@@ -106,9 +105,8 @@
 
   % Build from the bottom
 
-  % TODO: muli font
   \node[, anchor=center, yshift=15mm] (G) at (X.south) {
-	\centering \hb{ruuvitag.com}
+	\centering \mlfont{14}{ruuvitag.com}
   };
 
   \node[fill=red, anchor=center, yshift=15mm] (F) at (G.north) {
@@ -116,7 +114,7 @@
   };
 
   \node[, anchor=center, yshift=30mm] (E) at (F.south) {
-	\centering \hb{COMING SOON TO KICKSTARTER!}
+	\centering \mlfont{14}{muli}
   };
 
   \draw[ultra thick, yellow] ($(E.south west)+(4pt,0)$) |- ($(E.south east)-(4pt,0)$);
