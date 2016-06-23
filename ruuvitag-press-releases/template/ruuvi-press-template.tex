@@ -1,8 +1,18 @@
+% !TeX program = xelatex
+
+% Author: Christopher Métrailler
+% Date: June 26, 2016
+% Version: v0.1
+% 
+% XeLaTeX is required to build this template file.
+
 \documentclass{article}
 \usepackage{fontspec}
 
 \newlength{\leftcolwidth}
 \newlength{\rightcolwidth}
+
+\usepackage[hidelinks]{hyperref}
 
 \usepackage{geometry}
 \geometry{a4paper, landscape} % 297mm x 210mm (landscape)
@@ -88,15 +98,15 @@ ItalicFont  = *-Light
 
 
   \node[fill=blue, text width=0.8\leftcolwidth, anchor=north, yshift=-10mm] (A) at (X.north) {
-  	\centering \orfont{14}{Open-Source} \\
+  	\centering \olfont{14}{Open-Source} \\
   };
 
   \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-5mm] (B) at (A.south) {
-    \centering \orfont{25}{BLUETOOTH 4.2} \olfont{14}{SENSOR BEACON} \\
+    \centering \orfont{16}{BLUETOOTH 4.2} \olfont{16}{SENSOR BEACON} \\
   };
 
   \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-20mm] (C) at (B.south) {
-    \centering \olfont{14}{RuuviTag} \\
+    \centering \orfont{32}{RuuviTag} \\
   };
 
   \node[fill=red, anchor=center, yshift=-40mm] (D) at (C.south) {
@@ -105,8 +115,8 @@ ItalicFont  = *-Light
 
   % Build from the bottom
 
-  \node[, anchor=center, yshift=15mm] (G) at (X.south) {
-	\centering \mlfont{14}{ruuvitag.com}
+  \node[anchor=center, yshift=15mm] (G) at (X.south) {
+	\centering \mlfont{11}{\href{http://ruuvitag.com}{ruuvitag.com}}
   };
 
   \node[fill=red, anchor=center, yshift=15mm] (F) at (G.north) {
@@ -114,7 +124,7 @@ ItalicFont  = *-Light
   };
 
   \node[, anchor=center, yshift=30mm] (E) at (F.south) {
-	\centering \mlfont{14}{muli}
+	\centering \orfont{14}{KICK}
   };
 
   \draw[ultra thick, yellow] ($(E.south west)+(4pt,0)$) |- ($(E.south east)-(4pt,0)$);
