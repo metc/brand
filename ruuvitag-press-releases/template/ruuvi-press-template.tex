@@ -71,84 +71,109 @@ ItalicFont  = *-Light
 \setlength{\rightcolwidth}{\paperwidth}
 \addtolength\rightcolwidth{-\leftcolwidth} % Fit the width of the paper
 
-% \fontsize{size}{skip}
-
 % Custom column style
 \tikzstyle{col} = [anchor=south west, rectangle, inner sep=0pt, inner ysep=0pt, minimum width=#1, minimum height=\paperheight]
+
+\tikzset{block/.style = {
+  % fill=blue, % Debug only. Fill nodes.
+  fill opacity=1.0,
+  text=white
+}}
 
 % From http://tex.stackexchange.com/questions/260775/how-to-place-text-over-an-image
 % and http://tex.stackexchange.com/questions/296659/remove-tikzpicture-border
 
 % From http://tex.stackexchange.com/questions/199968/how-do-i-set-only-one-side-of-a-tikz-nodes-border-color
 
+\begin{tikzpicture}[remember picture, overlay]
+
 % Left column
 % -----------
 
-\begin{tikzpicture}[remember picture, overlay]
-
 % Background image of the column
-\node[col=\leftcolwidth] (X) at (current page.south west) {
-  \includegraphics[height=\paperheight]{col_left}
+\node[col=\leftcolwidth, fill=black] (L) at (current page.south west) {
+  % \includegraphics[height=\paperheight]{col_left}
 };
 
-\begin{scope}[x={(X.south west)}, y={(X.north east)}]%
+\begin{scope}[x={(L.south west)}, y={(L.north east)}]
 
-  % Column background color
-  \fill[fill=blue, fill opacity=0.7] ($(X.south west)$) rectangle ($(X.north east)$);
+% Column background color
+% \fill ($(L.south west)$) rectangle ($(L.north east)$);
+
+% Top boxes
+
+\node[block, text width=0.8\leftcolwidth, anchor=north, yshift=-8mm] (A) at (L.north) {
+  \centering \olfont{14}{Open-Source} \\
+};
+
+\node[block, text width=0.8\leftcolwidth, anchor=center, yshift=-5mm] (B) at (A.south) {
+  \centering \orfont{16}{BLUETOOTH 4.2} \olfont{16}{SENSOR BEACON} \\
+};
+
+\node[block, text width=0.8\leftcolwidth, anchor=center, yshift=-15mm] (C) at (B.south) {
+  \centering \orfont{32}{RuuviTag} \\
+};
+
+\node[block, anchor=center, yshift=-55mm] (D) at (C.south) {
+  \includegraphics[height=100mm]{ruuvi-tag-rounds.pdf}
+};
 
 
-  \node[fill=blue, text width=0.8\leftcolwidth, anchor=north, yshift=-10mm] (A) at (X.north) {
-  	\centering \olfont{14}{Open-Source} \\
-  };
+% Bottom boxes
 
-  \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-5mm] (B) at (A.south) {
-    \centering \orfont{16}{BLUETOOTH 4.2} \olfont{16}{SENSOR BEACON} \\
-  };
+\node[block, anchor=south, yshift=6mm] (G) at (L.south) {
+  \centering \mlfont{11}{\href{http://ruuvitag.com}{ruuvitag.com}}
+};
 
-  \node[fill=red, text width=0.8\leftcolwidth, anchor=center, yshift=-20mm] (C) at (B.south) {
-    \centering \orfont{32}{RuuviTag} \\
-  };
+\node[block, anchor=south, yshift=19mm] (F) at (L.south) {
+  \includegraphics[height=7mm]{ruuvi-logo-white} % revert white logo
+};
 
-  \node[fill=red, anchor=center, yshift=-40mm] (D) at (C.south) {
-    \includegraphics[height=30mm]{col_left}
-  };
+\node[block, anchor=south, yshift=22mm, text depth=3pt] (E) at (F.south) {
+  \centering \orfont{14}{COMING SOON TO KICKSTARTER!}
+};
 
-  % Build from the bottom
-
-  \node[anchor=center, yshift=15mm] (G) at (X.south) {
-	\centering \mlfont{11}{\href{http://ruuvitag.com}{ruuvitag.com}}
-  };
-
-  \node[fill=red, anchor=center, yshift=15mm] (F) at (G.north) {
-	\includegraphics[height=15mm]{col_left}
-  };
-
-  \node[, anchor=center, yshift=30mm] (E) at (F.south) {
-	\centering \orfont{14}{KICK}
-  };
-
-  \draw[ultra thick, yellow] ($(E.south west)+(4pt,0)$) |- ($(E.south east)-(4pt,0)$);
+\draw[line width=2pt, yellow] ($(E.south west)+(4pt,0)$) |- ($(E.south east)-(4pt,0)$);
 
 \end{scope}
 
-\end{tikzpicture}
 
-%\pagestyle{empty}%
-%    \noindent
-%    \begin{tabular}{@{}c@{}}
-%    \cellcolor{blue!50}%
-%    \begin{minipage}[t][\paperheight][t]{106mm}%
-%        Left
-%        \includegraphics[width=\linewidth]{col_left} 
-%        sdsdf
-%    \end{minipage}%
-%    \end{tabular}%
-%    \begin{tabular}{@{}c@{}}
-%    %\cellcolor{green!50}%
-%    \begin{minipage}[t][\paperheight][t]{191mm}%
-%        Right
-%    \end{minipage}%
-%    \end{tabular}%
+
+% Rigth column
+% ------------
+
+% Background image of the column
+\node[col=\rightcolwidth, fill=black] (R) at ($(current page.south west)+(\leftcolwidth,0)$) {
+  % \includegraphics[height=\paperheight]{col_right}
+};
+
+\begin{scope}[x={(R.south west)}, y={(R.north east)}]
+
+% Top boxes
+
+\node[block, text width=0.915\rightcolwidth, anchor=north west, xshift=7mm, yshift=-8mm] (A) at (R.north west) {
+  \olfont{14}{SOON AVAILABLE FOR EVERYONE:}\\[10pt]
+  \orfont{20}{Open-Source Bluetooth 4.2 Sensor Beacon Goes to Kickstarter!} \\[18pt]
+  
+  \orfont{14}{WHAT IS IT?}\\[12pt]
+  
+  \mlfont{11}{\baselineskip=14pt The Internet of Things, beacons and Physical Web are today’s hot topics. We will be surrounded by small intelligent sensor nodes that analyze the environment and offer people more content on their smartphones. Lots of traditional proximity beacon products are already available out there, but what the market is truly lacking is an open sourced device.\\[10pt]
+We decided to change this. A year ago we started a design process with one goal: to create a superior open-source sensor beacon platform to fulfill the needs of both developers and makers. We managed to create one of the most advanced Bluetooth sensor products in the world. Now what we want, more than anything, is to make it available for everyone. To make this a reality we are launching a global Kickstarter campaign for this project.\\[14pt]}
+  
+  \orfont{14}{HOW TO USE IT?}\\[12pt]
+  
+  \mlfont{11}{\baselineskip=14pt RuuviTag can act as a standard Eddystone/iBeacon proximity beacon but it has the potential to be so much more. By having a way to measure temperature, humidity, air pressure and acceleration it’s possible to cover several use cases. No need to worry about charging the device because the battery life lasts up to 10 years.\\[10pt]
+The device can be easily adjusted to cover different kinds of needs. Use it as a remote weather station with readings that can be pulled up on your mobile phone, attach one to your bicycle so you can be notified if someone moves it or tell it to broadcast a Physical Web address. There are endless possibilities for its set up. No programming tools or advanced technical knowledge is required. But, because everything is open-source, the opportunities are limitless.\\[14pt]}
+  
+  \orfont{14}{SUPPORTING EDUCATION}\\[12pt]
+  
+  \mlfont{11}{\baselineskip=14pt The Tag is also a perfect tool for education. We want to give RuuviTags free for educational purposes to schools and universities around the world. The more the campaign grows, more free devices we can ship out.\\[10pt]
+For more info and to stay informed, check our website and join mailing list: ruuvitag.com\\
+You can also reach us via email: info@ruuvi.com}
+};
+\end{scope}
+
+\end{tikzpicture}
 
 
 \end{document}
