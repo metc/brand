@@ -28,9 +28,6 @@
 
 \parindent=0mm
 
-% http://tex.stackexchange.com/questions/25249/how-do-i-use-a-particular-font-for-a-small-section-of-text-in-my-document
-% http://tex.stackexchange.com/questions/62603/how-to-choose-a-specific-weight-from-a-font-family-using-fontspec-and-xelatex
-
 % Custom Oswald Regular / Light fonts
 \newfontfamily{\oswald}[
   Path        = fonts/,
@@ -65,9 +62,14 @@ ItalicFont  = *-Light
 {\par\noindent\ignorespacesafterend}
 
 \begin{document}
+
+$for(include-before)$
+$include-before$
+$endfor$
+
 \pagestyle{empty}
 
-\setlength{\leftcolwidth}{106mm}           % Should corresponds to the background image width
+\setlength{\leftcolwidth}{106mm}           % Defines the left column width
 \setlength{\rightcolwidth}{\paperwidth}
 \addtolength\rightcolwidth{-\leftcolwidth} % Fit the width of the paper
 
@@ -80,10 +82,6 @@ ItalicFont  = *-Light
   text=white
 }}
 
-% From http://tex.stackexchange.com/questions/260775/how-to-place-text-over-an-image
-% and http://tex.stackexchange.com/questions/296659/remove-tikzpicture-border
-
-% From http://tex.stackexchange.com/questions/199968/how-do-i-set-only-one-side-of-a-tikz-nodes-border-color
 
 \begin{tikzpicture}[remember picture, overlay]
 
@@ -151,6 +149,8 @@ ItalicFont  = *-Light
 
 % Top boxes
 
+$body$
+
 \node[block, text width=0.915\rightcolwidth, anchor=north west, xshift=7mm, yshift=-8mm] (A) at (R.north west) {
   \olfont{14}{SOON AVAILABLE FOR EVERYONE:}\\[10pt]
   \orfont{20}{Open-Source Bluetooth 4.2 Sensor Beacon Goes to Kickstarter!} \\[18pt]
@@ -175,5 +175,8 @@ You can also reach us via email: info@ruuvi.com}
 
 \end{tikzpicture}
 
+$for(include-after)$
+$include-after$
+$endfor$
 
 \end{document}
